@@ -23,7 +23,7 @@ class _State extends State<FeatureTogglesCard> {
               subtitle: const Text('Lightning-fast internet speed.',
                   style: TextStyle(color: AppColors.textSecondary)),
               value: accelerate,
-              activeThumbColor: AppColors.accent,
+              activeColor: AppColors.accent,
               onChanged: (v) => setState(() => accelerate = v),
             ),
             SwitchListTile(
@@ -33,7 +33,7 @@ class _State extends State<FeatureTogglesCard> {
               subtitle: const Text('Block ads for smoother browsing.',
                   style: TextStyle(color: AppColors.textSecondary)),
               value: adBlock,
-              activeThumbColor: AppColors.accent,
+              activeColor: AppColors.accent,
               onChanged: (v) => setState(() => adBlock = v),
             ),
           ],

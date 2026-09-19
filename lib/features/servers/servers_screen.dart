@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme/app_theme.dart';
-import '../../data/models/connection_state.dart';
 import '../../data/services/servers_provider.dart';
 import '../../data/services/vpn_controller.dart';
 import 'widgets/server_tile.dart';

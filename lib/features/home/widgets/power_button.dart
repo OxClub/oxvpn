@@ -24,7 +24,7 @@ class PowerButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(70),
           boxShadow: [
             BoxShadow(
-              color: color.withValues(alpha: 0.4),
+              color: color.withOpacity(0.4),
               blurRadius: 40,
               spreadRadius: 4,
             ),

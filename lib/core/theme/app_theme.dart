@@ -28,7 +28,7 @@ ThemeData buildDarkTheme() => ThemeData(
     seedColor: AppColors.accent,
     brightness: Brightness.dark,
   ).copyWith(surface: AppColors.background, primary: AppColors.accent),
-  cardTheme: const CardThemeData(
+  cardTheme: const CardTheme(
     color: AppColors.card,
     elevation: 0,
     shape: RoundedRectangleBorder(

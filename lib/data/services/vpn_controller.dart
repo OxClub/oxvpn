@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/connection_state.dart';
 import '../models/vpn_server.dart';
