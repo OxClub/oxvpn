@@ -9,8 +9,8 @@ class PowerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final connected = vpn.status == VpnStatus.connected;
-    final connecting = vpn.status == VpnStatus.connecting;
+    final connected = vpn.status == VpnState.connected;
+    final connecting = vpn.status == VpnState.connecting;
     final color = connected ? AppColors.accentGreen : AppColors.accent;
     final label = connected ? 'CONNECTED' : connecting ? 'CONNECTING' : 'DISCONNECTED';
 

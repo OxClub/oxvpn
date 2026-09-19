@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:openvpn_flutter/openvpn_flutter.dart';
+import 'package:openvpn_flutter/openvpn_flutter.dart' hide VpnStatus;
 import '../models/connection_state.dart';
 import '../models/vpn_server.dart';
 
@@ -20,7 +20,7 @@ class VpnController extends StateNotifier<VpnConnectionState> {
       onVpnStatusChanged: (data) {
         final status = data?.status ?? '';
         if (status == 'CONNECTED') {
-          state = state.copyWith(status: VpnStatus.connected);
+          state = state.copyWith(status: VpnState.connected);
           _startTimer();
         } else if (status == 'DISCONNECTED') {
           _timer?.cancel();
@@ -29,7 +29,7 @@ class VpnController extends StateNotifier<VpnConnectionState> {
       },
       onVpnStageChanged: (stage, raw) {
         if (stage == VPNStage.connecting || stage == VPNStage.authenticating) {
-          state = state.copyWith(status: VpnStatus.connecting);
+          state = state.copyWith(status: VpnState.connecting);
         }
       },
     );
@@ -46,12 +46,12 @@ class VpnController extends StateNotifier<VpnConnectionState> {
   Future<void> connect(VpnServer server) async {
     if (!_ready || _openVpn == null) return;
     state = state.copyWith(
-      status: VpnStatus.connecting,
+      status: VpnState.connecting,
       server: server,
       errorMessage: null,
     );
     try {
-      await _openVpn!.connect(
+      _openVpn!.connect(
         server.ovpnConfig,
         server.displayName,
         username: 'vpn',
@@ -60,7 +60,7 @@ class VpnController extends StateNotifier<VpnConnectionState> {
       );
     } catch (e) {
       state = state.copyWith(
-        status: VpnStatus.disconnected,
+        status: VpnState.disconnected,
         errorMessage: e.toString(),
       );
     }
@@ -68,17 +68,17 @@ class VpnController extends StateNotifier<VpnConnectionState> {
 
   Future<void> disconnect() async {
     if (_openVpn == null) return;
-    await _openVpn!.disconnect();
+    _openVpn!.disconnect();
     _timer?.cancel();
     state = const VpnConnectionState();
   }
 
   Future<void> toggle(VpnServer? server) async {
     if (server == null) return;
-    if (state.status == VpnStatus.connected) {
+    if (state.status == VpnState.connected) {
       await disconnect();
-    } else if (state.status == VpnStatus.disconnected ||
-        state.status == VpnStatus.error) {
+    } else if (state.status == VpnState.disconnected ||
+        state.status == VpnState.error) {
       await connect(server);
     }
   }
