@@ -1,0 +1,16 @@
+[
+  {"id":"al-tirana","country":"Albania","countryCode":"AL","city":"Tirana","isFree":false,"protocol":"wireguard","host":"al1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"au-sydney","country":"Australia","countryCode":"AU","city":"Sydney","isFree":false,"protocol":"wireguard","host":"au1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"at-vienna","country":"Austria","countryCode":"AT","city":"Vienna","isFree":false,"protocol":"wireguard","host":"at1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"be-zaventem","country":"Belgium","countryCode":"BE","city":"Zaventem","isFree":false,"protocol":"wireguard","host":"be1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"br-saopaulo","country":"Brazil","countryCode":"BR","city":"São Paulo","isFree":false,"protocol":"wireguard","host":"br1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"ca-pointeclaire","country":"Canada","countryCode":"CA","city":"Pointe-Claire","isFree":true,"protocol":"wireguard","host":"ca1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"ca-toronto","country":"Canada","countryCode":"CA","city":"Toronto","isFree":false,"protocol":"wireguard","host":"ca2.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"dk-copenhagen","country":"Denmark","countryCode":"DK","city":"Copenhagen","isFree":false,"protocol":"wireguard","host":"dk1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"fr-paris","country":"France","countryCode":"FR","city":"Paris","isFree":true,"protocol":"wireguard","host":"fr1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"de-dusseldorf","country":"Germany","countryCode":"DE","city":"Düsseldorf","isFree":true,"protocol":"wireguard","host":"de1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"jp-tokyo","country":"Japan","countryCode":"JP","city":"Tokyo","isFree":true,"protocol":"wireguard","host":"jp1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"es-barcelona","country":"Spain","countryCode":"ES","city":"Barcelona","isFree":true,"protocol":"wireguard","host":"es1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"nl-haarlem","country":"Netherlands","countryCode":"NL","city":"Haarlem","isFree":true,"protocol":"wireguard","host":"nl1.oxvpn.example","port":51820,"publicKey":"","pingMs":0},
+  {"id":"nl-naaldwijk","country":"Netherlands","countryCode":"NL","city":"Naaldwijk","isFree":true,"protocol":"wireguard","host":"nl2.oxvpn.example","port":51820,"publicKey":"","pingMs":0}
+]

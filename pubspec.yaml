@@ -1,0 +1,50 @@
+name: oxvpn
+description: OxVPN — fast, private, ad-free VPN.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_riverpod: ^2.5.1
+  go_router: ^14.2.0
+  shared_preferences: ^2.2.3
+  flutter_secure_storage: ^9.2.2
+  dio: ^5.5.0
+  connectivity_plus: ^6.0.3
+  package_info_plus: ^8.0.0
+  url_launcher: ^6.3.0
+  in_app_review: ^2.0.9
+  vibration: ^2.0.0
+  flutter_local_notifications: ^17.1.2
+  flutter_svg: ^2.0.10
+  country_flags: ^3.0.0
+  webview_flutter: ^4.8.0
+  easy_localization: ^3.0.7
+  google_mobile_ads: ^5.1.0
+  in_app_purchase: ^3.2.0
+  in_app_purchase_android: ^0.3.0+18
+  firebase_core: ^3.1.0
+  firebase_analytics: ^11.2.0
+  firebase_crashlytics: ^4.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.4
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/mock_servers.json
+    - assets/legal/terms.html
+    - assets/legal/privacy.html
+    - assets/legal/subscription.html
+    - assets/translations/
