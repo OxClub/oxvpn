@@ -12,10 +12,12 @@ import 'widgets/world_map_painter.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final vpn = ref.watch(vpnControllerProvider);
-    final servers = ref.watch(serversProvider);
+    final serversAsync = ref.watch(serversProvider);
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -43,17 +45,33 @@ class HomeScreen extends ConsumerWidget {
             children: [
               const FeatureTogglesCard(),
               const Spacer(),
-              servers.when(
-                data: (list) {
-                  final fastest = list.isEmpty
-                      ? null
-                      : list.reduce((a, b) => a.pingMs < b.pingMs ? a : b);
-                  return PowerButton(vpn: vpn, onTap: () => ref
-                      .read(vpnControllerProvider.notifier)
-                      .toggle(vpn.server ?? fastest));
+              serversAsync.when(
+                data: (servers) {
+                  final fastest =
+                      servers.isEmpty ? null : servers.first;
+                  return PowerButton(
+                    vpn: vpn,
+                    onTap: () {
+                      if (vpn.server != null) {
+                        ref.read(vpnControllerProvider.notifier).toggle(vpn.server);
+                      } else {
+                        ref.read(vpnControllerProvider.notifier).toggle(fastest);
+                      }
+                    },
+                  );
                 },
-                loading: () => const CircularProgressIndicator(),
-                error: (_, __) => const SizedBox(),
+                loading: () => const Padding(
+                  padding: EdgeInsets.all(40),
+                  child: CircularProgressIndicator(color: AppColors.accent),
+                ),
+                error: (e, _) => Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Text(
+                    'Server list failed:\n$e',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: AppColors.textSecondary),
+                  ),
+                ),
               ),
               const Spacer(),
               const ServerSelectorCard(),
