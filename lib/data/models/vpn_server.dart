@@ -7,6 +7,7 @@ class VpnServer {
   final String city;
   final bool isFree;
   final int pingMs;
+  final int port;
   final String ip;
   final String ovpnConfig;
 
@@ -17,6 +18,7 @@ class VpnServer {
     required this.city,
     required this.isFree,
     required this.pingMs,
+    this.port = 443,
     required this.ip,
     required this.ovpnConfig,
   });
@@ -28,6 +30,7 @@ class VpnServer {
         city: j['city'] as String,
         isFree: j['isFree'] as bool? ?? true,
         pingMs: j['pingMs'] as int? ?? 0,
+        port: j['port'] as int? ?? 443,
         ip: j['ip'] as String? ?? '',
         ovpnConfig: j['ovpnConfig'] as String? ?? '',
       );
@@ -42,6 +45,14 @@ class VpnServer {
     final ip = p[1].trim();
     final b64 = p[14].replaceAll('\r', '').replaceAll('\n', '').trim();
     final decoded = utf8.decode(base64.decode(b64));
+
+    // Extract port from the config's "remote <ip> <port>" line
+    int port = 443;
+    final remoteMatch = RegExp(r'remote\s+\S+\s+(\d+)').firstMatch(decoded);
+    if (remoteMatch != null) {
+      port = int.tryParse(remoteMatch.group(1) ?? '443') ?? 443;
+    }
+
     return VpnServer(
       id: ip,
       country: p[5].trim(),
@@ -49,8 +60,33 @@ class VpnServer {
       city: p[5].trim(),
       isFree: true,
       pingMs: int.tryParse(p[3].trim()) ?? 999,
+      port: port,
       ip: ip,
       ovpnConfig: decoded,
+    );
+  }
+
+  VpnServer copyWith({
+    String? id,
+    String? country,
+    String? countryCode,
+    String? city,
+    bool? isFree,
+    int? pingMs,
+    int? port,
+    String? ip,
+    String? ovpnConfig,
+  }) {
+    return VpnServer(
+      id: id ?? this.id,
+      country: country ?? this.country,
+      countryCode: countryCode ?? this.countryCode,
+      city: city ?? this.city,
+      isFree: isFree ?? this.isFree,
+      pingMs: pingMs ?? this.pingMs,
+      port: port ?? this.port,
+      ip: ip ?? this.ip,
+      ovpnConfig: ovpnConfig ?? this.ovpnConfig,
     );
   }
 
