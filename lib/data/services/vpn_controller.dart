@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openvpn_flutter/openvpn_flutter.dart' hide VpnStatus;
 import '../models/connection_state.dart';
 import '../models/vpn_server.dart';
+import 'remaining_time.dart';
 import 'log_store.dart';
 
 final vpnControllerProvider =
@@ -108,6 +109,13 @@ class VpnController extends StateNotifier<VpnConnectionState> {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       state = state.copyWith(sessionSeconds: state.sessionSeconds + 1);
+      _ref.read(remainingTimeProvider.notifier).tickSecond();
+      // Auto-disconnect when balance hits 0
+      final balance = _ref.read(remainingTimeProvider);
+      if (balance <= 0 && state.status == VpnState.connected) {
+        _log.add('BALANCE EXHAUSTED — auto-disconnect');
+        disconnect();
+      }
     });
   }
 
