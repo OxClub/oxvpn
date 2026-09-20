@@ -109,12 +109,12 @@ class VpnController extends StateNotifier<VpnConnectionState> {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       state = state.copyWith(sessionSeconds: state.sessionSeconds + 1);
-      _ref.read(remainingTimeProvider.notifier).tickSecond();
-      // Auto-disconnect when balance hits 0
+
+      // Only tick the balance down if the user has credited time (from ads).
+      // VPN Gate is free & unlimited, so never auto-disconnect when balance is 0.
       final balance = _ref.read(remainingTimeProvider);
-      if (balance <= 0 && state.status == VpnState.connected) {
-        _log.add('BALANCE EXHAUSTED — auto-disconnect');
-        disconnect();
+      if (balance > 0) {
+        _ref.read(remainingTimeProvider.notifier).tickSecond();
       }
     });
   }
