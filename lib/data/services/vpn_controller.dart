@@ -18,18 +18,28 @@ class VpnController extends StateNotifier<VpnConnectionState> {
     if (_ready) return;
     _openVpn = OpenVPN(
       onVpnStatusChanged: (data) {
-        final status = data?.status ?? '';
-        if (status == 'CONNECTED') {
+        // data is a String status from the plugin
+        final s = data ?? '';
+        if (s == 'CONNECTED' || s == 'connected') {
           state = state.copyWith(status: VpnState.connected);
           _startTimer();
-        } else if (status == 'DISCONNECTED') {
+        } else if (s == 'DISCONNECTED' || s == 'disconnected') {
           _timer?.cancel();
           state = const VpnConnectionState();
         }
       },
       onVpnStageChanged: (stage, raw) {
-        if (stage == VPNStage.connecting || stage == VPNStage.authenticating) {
+        final st = raw.toLowerCase();
+        if (st.contains('connecting') || st.contains('authenticating')) {
           state = state.copyWith(status: VpnState.connecting);
+        }
+        if (st.contains('connected')) {
+          state = state.copyWith(status: VpnState.connected);
+          _startTimer();
+        }
+        if (st.contains('disconnect')) {
+          _timer?.cancel();
+          state = const VpnConnectionState();
         }
       },
     );
