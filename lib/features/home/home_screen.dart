@@ -9,6 +9,7 @@ import 'widgets/power_button.dart';
 import 'widgets/remaining_time_card.dart';
 import 'widgets/server_selector_card.dart';
 import 'widgets/world_map_painter.dart';
+import 'widgets/banner_ad_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -76,6 +77,8 @@ class HomeScreen extends ConsumerWidget {
               const Spacer(),
               const ServerSelectorCard(),
               const RemainingTimeCard(),
+              const SizedBox(height: 8),
+              const BannerAdWidget(),
               const SizedBox(height: 24),
             ],
           ),
