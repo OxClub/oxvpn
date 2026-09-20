@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../core/theme/app_theme.dart';
 import '../../data/services/log_store.dart';
 
 class LogScreen extends ConsumerWidget {
@@ -27,9 +27,10 @@ class LogScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.copy, color: Colors.white),
             onPressed: () {
-              // Simple copy to clipboard
-              // ignore: deprecated_member_use
-              // Clipboard.setData(ClipboardData(text: logs.join('\n')));
+              Clipboard.setData(ClipboardData(text: logs.join('\n')));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Logs copied')),
+              );
             },
           ),
         ],
@@ -39,7 +40,7 @@ class LogScreen extends ConsumerWidget {
               child: Text(
                 'No logs yet.\nTap the power button on Home.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textSecondary),
+                style: TextStyle(color: Colors.white70),
               ),
             )
           : ListView.builder(

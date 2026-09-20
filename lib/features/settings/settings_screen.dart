@@ -5,6 +5,7 @@ import '../../core/theme/app_theme.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,39 +21,7 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: AppColors.premiumGradient,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.workspace_premium, color: Colors.white, size: 36),
-                  const SizedBox(width: 14),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Buy Ad-Free Access',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800,
-                            )),
-                        SizedBox(height: 4),
-                        Text('Get Boosted & Ad-free VPN security.',
-                            style: TextStyle(color: Colors.white70, fontSize: 12)),
-                      ],
-                    ),
-                  ),
-                  const Icon(Icons.chevron_right, color: Colors.white),
-                ],
-              ),
-            ),
-          ),
+          _banner(context),
           const SizedBox(height: 8),
           _group(context, [
             ('Write a review', Icons.rate_review_outlined),
@@ -67,14 +36,55 @@ class SettingsScreen extends StatelessWidget {
             ('Kill switch', Icons.security),
             ('Auto-connect on untrusted Wi-Fi', Icons.wifi),
             ('Split tunneling', Icons.call_split),
-            ('Protocol (WireGuard)', Icons.settings_ethernet),
+            ('Protocol (OpenVPN)', Icons.settings_ethernet),
             ('Theme (Dark)', Icons.dark_mode),
             ('Language (English)', Icons.language),
           ]),
+          const SizedBox(height: 16),
+          _debugGroup(context),
           const SizedBox(height: 24),
           const _VersionFooter(),
           const SizedBox(height: 24),
         ],
+      ),
+    );
+  }
+
+  Widget _banner(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () => _snack(context, 'Paywall — coming soon'),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: AppColors.premiumGradient,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: const Row(
+            children: [
+              Icon(Icons.workspace_premium, color: Colors.white, size: 36),
+              SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Buy Ad-Free Access',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800)),
+                    SizedBox(height: 4),
+                    Text('Get Boosted & Ad-free VPN security.',
+                        style: TextStyle(color: Colors.white70, fontSize: 12)),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right, color: Colors.white),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -91,11 +101,42 @@ class SettingsScreen extends StatelessWidget {
           return ListTile(
             leading: Icon(item.$2, color: AppColors.accent, size: 22),
             title: Text(item.$1,
-                style: const TextStyle(color: AppColors.textPrimary, fontSize: 15)),
-            trailing: const Icon(Icons.chevron_right, color: AppColors.textSecondary),
-            onTap: () {},
+                style: const TextStyle(
+                    color: AppColors.textPrimary, fontSize: 15)),
+            trailing: const Icon(Icons.chevron_right,
+                color: AppColors.textSecondary),
+            onTap: () => _snack(context, '${item.$1} — tapped'),
           );
         }).toList(),
+      ),
+    );
+  }
+
+  Widget _debugGroup(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: ListTile(
+        leading: const Icon(Icons.bug_report,
+            color: AppColors.accent, size: 22),
+        title: const Text('Debug Log',
+            style: TextStyle(color: AppColors.textPrimary, fontSize: 15)),
+        trailing: const Icon(Icons.chevron_right,
+            color: AppColors.textSecondary),
+        onTap: () => context.push('/debug'),
+      ),
+    );
+  }
+
+  void _snack(BuildContext context, String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        backgroundColor: AppColors.card,
+        duration: const Duration(seconds: 1),
       ),
     );
   }
@@ -103,6 +144,7 @@ class SettingsScreen extends StatelessWidget {
 
 class _VersionFooter extends StatelessWidget {
   const _VersionFooter();
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<PackageInfo>(
@@ -112,7 +154,8 @@ class _VersionFooter extends StatelessWidget {
         return Center(
           child: Text(
             v == null ? 'Version' : 'Version ${v.version} (${v.buildNumber})',
-            style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+            style: const TextStyle(
+                color: AppColors.textSecondary, fontSize: 12),
           ),
         );
       },
